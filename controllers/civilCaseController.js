@@ -1,4 +1,4 @@
-import CivilCase from "../schema/CivilCaseSchema.js";
+import CivilCase from "../schema/CivilCaseSchema/CivilCaseSchema.js";
 import { civilCaseValidation } from "../validation/validation.js";
 
 export const civilCaseAdd = (req, res) => {
