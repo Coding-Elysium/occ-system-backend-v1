@@ -74,3 +74,29 @@ export const deleteCivilCase = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const updateStatus = async (req, res) => {
+  try {
+    const { ids, status } = req.body;
+
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ message: "No case IDs provided." });
+    }
+
+    if (!status || typeof status !== "string") {
+      return res.status(400).json({ message: "Invalid status value." });
+    }
+
+    const result = await CivilCase.updateMany(
+      { _id: { $in: ids } },
+      { $set: { status: status } },
+      { runValidators: false }
+    );
+
+    res.status(200).json({
+      message: `Updated status of ${result.modifiedCount} case(s) to "${status}".`,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

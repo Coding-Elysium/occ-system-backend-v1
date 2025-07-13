@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 import Counter from "./CounterSchema.js";
+import { capitalizeFirstLetter } from "../../helper/helper.js";
 
 const civilCaseSchema = mongoose.Schema({
   bookNumber: {
     type: String,
-    required: true,
     unique: true,
   },
   docketNumber: {
@@ -12,16 +12,17 @@ const civilCaseSchema = mongoose.Schema({
     unique: true,
   },
   petitioner: {
-    type: String,
-    required: true,
+    type: [String],
   },
   respondents: {
     type: [String],
-    required: true,
   },
   nature: {
     type: String,
-    required: true,
+  },
+  status: {
+    type: String,
+    enum: ["-----", "withdrawn", "dismissed", "archived", "appealed case"],
   },
 });
 
@@ -34,6 +35,15 @@ civilCaseSchema.pre("save", async function (next) {
     );
     this.docketNumber = counter.seq;
   }
+
+  if (this.nature) {
+    this.nature = capitalizeFirstLetter(this.nature);
+  }
+
+  if (this.status) {
+    this.status = capitalizeFirstLetter(this.status);
+  }
+
   next();
 });
 
