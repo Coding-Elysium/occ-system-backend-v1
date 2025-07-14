@@ -1,16 +1,19 @@
 import express from "express";
-import { 
-    civilCaseAdd, 
-    decisionFirstLevel, 
-    decisionSecondLevel, 
-    deleteCivilCase, 
-    deleteFirstLevel, 
-    getCivilCaseById, 
-    getCivilCases, 
-    getDecisionFirstLevel, 
-    updateCivilCase, 
-    updateFirstLevel, 
-    updateStatus 
+import {
+  civilCaseAdd,
+  decisionFirstLevel,
+  decisionSecondLevel,
+  deleteCivilCase,
+  deleteFirstLevel,
+  deleteSecondLevel,
+  getCivilCaseById,
+  getCivilCases,
+  getDecisionFirstLevel,
+  getDecisionSecondLevel,
+  updateCivilCase,
+  updateFirstLevel,
+  updateSecondLevel,
+  updateStatus,
 } from "../../controllers/CivilCaseController/civilCase.js";
 
 const router = express.Router();
@@ -28,5 +31,8 @@ router.delete("/delete/decision/firstlevel/:id", deleteFirstLevel);
 router.put("/update/decision/firstlevel/:id", updateFirstLevel);
 
 router.post("/add/decision/secondlevel", decisionSecondLevel);
+router.get("/read/decision/secondlevel/:case_id", getDecisionSecondLevel);
+router.delete("/delete/decision/secondlevel/:id", deleteSecondLevel);
+router.put("/update/decision/secondlevel/:id", updateSecondLevel);
 
 export default router;

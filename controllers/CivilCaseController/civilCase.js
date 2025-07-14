@@ -1,7 +1,11 @@
 import CivilCase from "../../schema/CivilCaseSchema/CivilCaseSchema.js";
 import DecisionFirstLevel from "../../schema/CivilCaseSchema/DecisionFirstLevelCourt.js";
 import DecisionSecondLevel from "../../schema/CivilCaseSchema/DecisionSecondLevelCourt.js";
-import { civilCaseValidation, firstLevelDecisionValidation } from "../../validation/validation.js";
+import {
+  civilCaseValidation,
+  firstLevelDecisionValidation,
+  secondLevelDecisionValidation,
+} from "../../validation/validation.js";
 
 //!======================================================== CIVIL CASE ============================================================
 
@@ -107,13 +111,13 @@ export const updateStatus = async (req, res) => {
 
 //!======================================================== FIRST DECISION ============================================================
 
-export const decisionFirstLevel = async(req, res) => {
+export const decisionFirstLevel = async (req, res) => {
   try {
     const { error } = firstLevelDecisionValidation.validate(req.body);
 
     if (error) {
-      return res.status(400).json({ 
-        message: error.details.map(err => err.message) 
+      return res.status(400).json({
+        message: error.details.map((err) => err.message),
       });
     }
 
@@ -123,7 +127,7 @@ export const decisionFirstLevel = async(req, res) => {
       remarks,
       decision,
       case_id,
-      date
+      date,
     });
 
     const savedDecision = await newDecision.save();
@@ -132,7 +136,7 @@ export const decisionFirstLevel = async(req, res) => {
     console.error("Error creating decision:", error);
     res.status(500).json({ message: "Internal server error." });
   }
-}
+};
 
 export const getDecisionFirstLevel = async (req, res) => {
   try {
@@ -141,7 +145,9 @@ export const getDecisionFirstLevel = async (req, res) => {
     const firstLevelDecision = await DecisionFirstLevel.find({ case_id });
 
     if (firstLevelDecision.length === 0) {
-      return res.status(404).json({ message: "First-level decision not found." });
+      return res
+        .status(404)
+        .json({ message: "First-level decision not found." });
     }
 
     res.status(200).json(firstLevelDecision);
@@ -160,11 +166,13 @@ export const deleteFirstLevel = async (req, res) => {
     if (!firstLevelDecision) {
       return res.status(404).json({ message: "First level not found." });
     }
-    res.status(200).json({ message: "First level decision deleted successfully." })
+    res
+      .status(200)
+      .json({ message: "First level decision deleted successfully." });
   } catch (error) {
     res.status(500).json({ message: "Internal server error." });
   }
-}
+};
 
 export const updateFirstLevel = async (req, res) => {
   try {
@@ -187,11 +195,13 @@ export const updateFirstLevel = async (req, res) => {
         case_id,
         date,
       },
-      { new: true } 
+      { new: true }
     );
 
     if (!updatedDecision) {
-      return res.status(404).json({ message: "First-level decision not found." });
+      return res
+        .status(404)
+        .json({ message: "First-level decision not found." });
     }
 
     res.status(200).json(updatedDecision);
@@ -201,15 +211,16 @@ export const updateFirstLevel = async (req, res) => {
   }
 };
 
-
 //!======================================================== SECOND DECISION ============================================================
 
-export const decisionSecondLevel = async(req, res) => {
+export const decisionSecondLevel = async (req, res) => {
   try {
     const { decision, case_id, judgement, finality } = req.body;
 
     if (!decision || !case_id) {
-      return res.status(400).json({ message: "Decision and case_id are required." });
+      return res
+        .status(400)
+        .json({ message: "Decision and case_id are required." });
     }
 
     const newDecision = new DecisionSecondLevel({
@@ -223,6 +234,81 @@ export const decisionSecondLevel = async(req, res) => {
     res.status(201).json(savedDecision);
   } catch (error) {
     console.error("Error creating decision:", error);
+    res
+      .status(500)
+      .json({ message: "Internal server error.", error: error.message });
+  }
+};
+
+export const getDecisionSecondLevel = async (req, res) => {
+  try {
+    const { case_id } = req.params;
+
+    const decisionSecondLevel = await DecisionSecondLevel.find({ case_id });
+
+    if (decisionSecondLevel.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "First-level decision not found." });
+    }
+
+    res.status(200).json(decisionSecondLevel);
+  } catch (error) {
+    console.error("Error fetching first-level decision:", error);
     res.status(500).json({ message: "Internal server error." });
   }
-}
+};
+
+export const deleteSecondLevel = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const secondLevelDecision = await DecisionSecondLevel.findByIdAndDelete(id);
+
+    if (!secondLevelDecision) {
+      return res.status(404).json({ message: "First level not found." });
+    }
+    res
+      .status(200)
+      .json({ message: "First level decision deleted successfully." });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error." });
+  }
+};
+
+export const updateSecondLevel = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { error } = secondLevelDecisionValidation.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        message: error.details.map((err) => err.message),
+      });
+    }
+
+    const { decision, case_id, judgement, finality } = req.body;
+
+    const updatedDecision = await DecisionSecondLevel.findByIdAndUpdate(
+      id,
+      {
+        decision,
+        case_id,
+        judgement,
+        finality,
+      },
+      { new: true }
+    );
+
+    if (!updatedDecision) {
+      return res
+        .status(404)
+        .json({ message: "First-level decision not found." });
+    }
+
+    res.status(200).json(updatedDecision);
+  } catch (error) {
+    console.error("Error updating first-level decision:", error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+};

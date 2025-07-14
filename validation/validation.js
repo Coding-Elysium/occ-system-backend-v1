@@ -11,8 +11,30 @@ export const civilCaseValidation = Joi.object({
 });
 
 export const firstLevelDecisionValidation = Joi.object({
-  remarks: Joi.string().allow('', null), 
+  remarks: Joi.string().allow("", null),
   decision: Joi.string().required(),
   case_id: Joi.string().required(),
-  date: Joi.date().optional().allow(null), 
+  date: Joi.date().optional().allow(null),
+});
+
+export const secondLevelDecisionValidation = Joi.object({
+  decision: Joi.string().required(),
+  case_id: Joi.string().required(),
+  judgement: Joi.date().optional().allow(null),
+  finality: Joi.string().allow("", null),
+});
+
+export const decisionCourtAppealsValidation = Joi.object({
+  dateOfAppealOne: Joi.date().optional().allow(null),
+  decision: Joi.string().required(),
+  resolution: Joi.date().optional().allow(null),
+  finality: Joi.string().allow("", null),
+  dateOfAppealTwo: Joi.date().optional().allow(null),
+  case_id: Joi.string().required(),
+});
+
+export const decisionSupremeCourtValidation = Joi.object({
+  decision: Joi.string().required(),
+  case_id: Joi.string().required(),
+  resolution: Joi.date().optional().allow(null),
 });
