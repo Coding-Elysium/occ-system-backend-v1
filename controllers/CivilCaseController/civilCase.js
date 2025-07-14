@@ -3,6 +3,8 @@ import DecisionFirstLevel from "../../schema/CivilCaseSchema/DecisionFirstLevelC
 import DecisionSecondLevel from "../../schema/CivilCaseSchema/DecisionSecondLevelCourt.js";
 import { civilCaseValidation, firstLevelDecisionValidation } from "../../validation/validation.js";
 
+//!======================================================== CIVIL CASE ============================================================
+
 export const civilCaseAdd = (req, res) => {
   try {
     const { error } = civilCaseValidation.validate(req.body);
