@@ -9,3 +9,10 @@ export const civilCaseValidation = Joi.object({
     .valid("-----", "withdrawn", "dismissed", "archived", "appealed case")
     .required(),
 });
+
+export const firstLevelDecisionValidation = Joi.object({
+  remarks: Joi.string().allow('', null), 
+  decision: Joi.string().required(),
+  case_id: Joi.string().required(),
+  date: Joi.date().optional().allow(null), 
+});

@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import civilCaseRoutes from "./routes/civilCaseRoutes.js";
+import civilCaseRoutes from "./routes/CivilCaseRoutes/civilCase.js";
 import cors from "cors";
 
 const app = express();
