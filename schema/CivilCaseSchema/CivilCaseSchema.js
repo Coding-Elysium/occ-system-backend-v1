@@ -20,6 +20,9 @@ const civilCaseSchema = mongoose.Schema({
   nature: {
     type: String,
   },
+  branch: {
+    type: String,
+  },
   status: {
     type: String,
     enum: ["-----", "withdrawn", "dismissed", "archived", "appealed case"],

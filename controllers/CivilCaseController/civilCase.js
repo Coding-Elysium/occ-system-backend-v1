@@ -1,8 +1,12 @@
 import CivilCase from "../../schema/CivilCaseSchema/CivilCaseSchema.js";
-import DecisionFirstLevel from "../../schema/CivilCaseSchema/DecisionFirstLevelCourt.js";
-import DecisionSecondLevel from "../../schema/CivilCaseSchema/DecisionSecondLevelCourt.js";
+import SchemaDecisionCourtAppeal from "../../schema/CivilCaseSchema/DecisionCourtAppeals.js";
+import SchemaDecisionFirstLevel from "../../schema/CivilCaseSchema/DecisionFirstLevelCourt.js";
+import SchemaDecisionSecondLevel from "../../schema/CivilCaseSchema/DecisionSecondLevelCourt.js";
+import SchemaDecisionSupremeCourt from "../../schema/CivilCaseSchema/DecisionSupremeCourt.js";
 import {
   civilCaseValidation,
+  decisionCourtAppealsValidation,
+  decisionSupremeCourtValidation,
   firstLevelDecisionValidation,
   secondLevelDecisionValidation,
 } from "../../validation/validation.js";
@@ -123,7 +127,7 @@ export const decisionFirstLevel = async (req, res) => {
 
     const { remarks, decision, case_id, date } = req.body;
 
-    const newDecision = new DecisionFirstLevel({
+    const newDecision = new SchemaDecisionFirstLevel({
       remarks,
       decision,
       case_id,
@@ -142,7 +146,7 @@ export const getDecisionFirstLevel = async (req, res) => {
   try {
     const { case_id } = req.params;
 
-    const firstLevelDecision = await DecisionFirstLevel.find({ case_id });
+    const firstLevelDecision = await SchemaDecisionFirstLevel.find({ case_id });
 
     if (firstLevelDecision.length === 0) {
       return res
@@ -161,7 +165,7 @@ export const deleteFirstLevel = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const firstLevelDecision = await DecisionFirstLevel.findByIdAndDelete(id);
+    const firstLevelDecision = await SchemaDecisionFirstLevel.findByIdAndDelete(id);
 
     if (!firstLevelDecision) {
       return res.status(404).json({ message: "First level not found." });
@@ -187,7 +191,7 @@ export const updateFirstLevel = async (req, res) => {
 
     const { remarks, decision, case_id, date } = req.body;
 
-    const updatedDecision = await DecisionFirstLevel.findByIdAndUpdate(
+    const updatedDecision = await SchemaDecisionFirstLevel.findByIdAndUpdate(
       id,
       {
         remarks,
@@ -223,7 +227,15 @@ export const decisionSecondLevel = async (req, res) => {
         .json({ message: "Decision and case_id are required." });
     }
 
-    const newDecision = new DecisionSecondLevel({
+    const { error } = secondLevelDecisionValidation.validate(req.body);
+
+    if (error) {
+      return res.status(400).json({
+        message: error.details.map((err) => err.message),
+      });
+    }
+
+    const newDecision = new SchemaDecisionSecondLevel({
       decision,
       case_id,
       judgement,
@@ -244,7 +256,7 @@ export const getDecisionSecondLevel = async (req, res) => {
   try {
     const { case_id } = req.params;
 
-    const decisionSecondLevel = await DecisionSecondLevel.find({ case_id });
+    const decisionSecondLevel = await SchemaDecisionSecondLevel.find({ case_id });
 
     if (decisionSecondLevel.length === 0) {
       return res
@@ -263,7 +275,7 @@ export const deleteSecondLevel = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const secondLevelDecision = await DecisionSecondLevel.findByIdAndDelete(id);
+    const secondLevelDecision = await SchemaDecisionSecondLevel.findByIdAndDelete(id);
 
     if (!secondLevelDecision) {
       return res.status(404).json({ message: "First level not found." });
@@ -289,7 +301,7 @@ export const updateSecondLevel = async (req, res) => {
 
     const { decision, case_id, judgement, finality } = req.body;
 
-    const updatedDecision = await DecisionSecondLevel.findByIdAndUpdate(
+    const updatedDecision = await SchemaDecisionSecondLevel.findByIdAndUpdate(
       id,
       {
         decision,
@@ -310,5 +322,176 @@ export const updateSecondLevel = async (req, res) => {
   } catch (error) {
     console.error("Error updating first-level decision:", error);
     res.status(500).json({ message: "Internal server error." });
+  }
+};
+
+//!================================================= COURT APPEALS ==============================================================
+
+export const courtAppeals = async (req, res) => {
+  try {
+    const { error } = decisionCourtAppealsValidation.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        message: error.details.map((err) => err.message),
+      });
+    }
+
+    const { dateOfAppealOne,
+      decision,
+      resolution,
+      finality,
+      dateOfAppealTwo,
+      case_id
+   } = req.body;
+
+    const newDecision = new SchemaDecisionCourtAppeal({
+      dateOfAppealOne,
+      decision,
+      resolution,
+      finality,
+      dateOfAppealTwo,
+      case_id
+    });
+
+    const savedDecision = await newDecision.save();
+    res.status(201).json(savedDecision);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error.", error: error.message });
+  }
+}
+
+export const getCourtAppeals = async (req, res) => {
+  try {
+    const { case_id } = req.params;
+    const courtAppeals = await SchemaDecisionCourtAppeal.find({case_id});
+    res.status(201).json(courtAppeals);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error." , error: error.message});
+  }
+}
+
+export const deleteCourtAppeals = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const courtAppeals = await SchemaDecisionCourtAppeal.findByIdAndDelete(id);
+    res.status(201).json(courtAppeals);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error." });
+  }
+}
+
+export const updateCourtAppeals = async(req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { error } = decisionCourtAppealsValidation.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        message: error.details.map((err) => err.message),
+      });
+    }
+
+    const { dateOfAppealOne, decision, resolution, finality, dateOfAppealTwo, case_id } = req.body;
+
+    const updatedDecision = await SchemaDecisionCourtAppeal.findByIdAndUpdate(
+      id,
+      {
+        dateOfAppealOne,
+        decision,
+        resolution,
+        finality,
+        dateOfAppealTwo,
+        case_id
+      },
+      { new: true }
+    );
+
+    if (!updatedDecision) {
+      return res
+        .status(404)
+        .json({ message: "First-level decision not found." });
+    }
+
+    res.status(200).json(updatedDecision);
+  } catch (error) {
+    console.error("Error updating first-level decision:", error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+}
+
+//!================================================= SUPREME COURT ==============================================================
+
+export const supremeCourt = async(req, res) => {
+  try {
+    const { decision, case_id, resolution } = req.body;
+
+    const { error } = decisionSupremeCourtValidation.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        message: error.details.map((err) => err.message),
+      });
+    }
+
+    const supremeCourt = new SchemaDecisionSupremeCourt({
+      decision,
+      case_id,
+      resolution,
+    })
+
+    const newDecision = await supremeCourt.save();
+     
+    res.status(200).json(newDecision);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error." });
+  }
+}
+
+export const getSupremeCourt = async(req, res) => {
+  try {
+    const { case_id } = req.params;
+    const supremeCourt = await SchemaDecisionSupremeCourt.find({ case_id });
+    res.status(201).json(supremeCourt);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error." });
+  }
+}
+
+export const deleteSupremeCourt = async(req, res) => {
+  try {
+    const { id } = req.params;
+    await SchemaDecisionSupremeCourt.findByIdAndDelete(id);
+    res.status(200).json({message: "Successfully Deleted"});
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error." });
+  }
+}
+
+export const updateSupremeCourt = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { decision, case_id, resolution } = req.body;
+
+    const { error } = decisionSupremeCourtValidation.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        message: error.details.map((err) => err.message),
+      });
+    }
+
+    const updateNewDecision = await SchemaDecisionSupremeCourt.findByIdAndUpdate(
+      id,
+      { decision, case_id, resolution },
+      { new: true }
+    );
+
+    if (!updateNewDecision) {
+      return res
+        .status(404)
+        .json({ message: "Supreme Court decision not found." });
+    }
+
+    res.status(200).json(updateNewDecision);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error.", error: error.message });
   }
 };

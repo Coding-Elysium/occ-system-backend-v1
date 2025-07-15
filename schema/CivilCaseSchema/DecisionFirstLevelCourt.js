@@ -18,6 +18,6 @@ const decisionFirstLevelSchema = mongoose.Schema({
     },
 });
 
-const DecisionFirstLevel = mongoose.model("DecisionFirstLevel", decisionFirstLevelSchema);
+const SchemaDecisionFirstLevel = mongoose.model("DecisionFirstLevel", decisionFirstLevelSchema);
 
-export default DecisionFirstLevel;
+export default SchemaDecisionFirstLevel;

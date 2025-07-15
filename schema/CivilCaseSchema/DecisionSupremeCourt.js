@@ -15,6 +15,6 @@ const decisionSupremeCourtSchema = mongoose.Schema({
     }
 });
 
-const DecisionSupremeCourt = mongoose.model("DecisionSupremeCourt", decisionSupremeCourtSchema);
+const SchemaDecisionSupremeCourt = mongoose.model("DecisionSupremeCourt", decisionSupremeCourtSchema);
 
-export default DecisionSupremeCourt;
+export default SchemaDecisionSupremeCourt;

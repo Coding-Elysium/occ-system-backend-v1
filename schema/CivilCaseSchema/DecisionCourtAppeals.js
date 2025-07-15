@@ -23,6 +23,6 @@ const decisionCourtAppealSchema = mongoose.Schema({
     },
 });
 
-const DecisionCourtAppeal = mongoose.model("DecisionFirstLevel", decisionCourtAppealSchema);
+const SchemaDecisionCourtAppeal = mongoose.model("DecisionCourtAppeal", decisionCourtAppealSchema);
 
-export default DecisionCourtAppeal;
+export default SchemaDecisionCourtAppeal;

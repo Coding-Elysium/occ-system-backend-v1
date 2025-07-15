@@ -5,6 +5,7 @@ export const civilCaseValidation = Joi.object({
   petitioner: Joi.array().items(Joi.string()).min(1).required(),
   respondents: Joi.array().items(Joi.string()).min(1).required(),
   nature: Joi.string().required(),
+  branch: Joi.string().required(),
   status: Joi.string()
     .valid("-----", "withdrawn", "dismissed", "archived", "appealed case")
     .required(),

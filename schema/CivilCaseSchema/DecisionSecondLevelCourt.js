@@ -19,6 +19,6 @@ const decisionSecondLevelSchema = mongoose.Schema({
     }
 });
 
-const DecisionSecondLevel = mongoose.model("DecisionSecondLevel", decisionSecondLevelSchema);
+const SchemaDecisionSecondLevel = mongoose.model("DecisionSecondLevel", decisionSecondLevelSchema);
 
-export default DecisionSecondLevel;
+export default SchemaDecisionSecondLevel;
