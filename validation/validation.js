@@ -12,7 +12,7 @@ export const civilCaseValidation = Joi.object({
     .required(),
 });
 
-export const  firstLevelDecisionValidation = Joi.object({
+export const firstLevelDecisionValidation = Joi.object({
   remarks: Joi.string().allow("", null),
   decision: Joi.string().required(),
   case_id: Joi.string().required(),
