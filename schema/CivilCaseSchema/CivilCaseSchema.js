@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import Counter from "./CounterSchema.js";
 import { capitalizeFirstLetter } from "../../helper/helper.js";
 
 const civilCaseSchema = mongoose.Schema({
@@ -8,7 +7,7 @@ const civilCaseSchema = mongoose.Schema({
     unique: true,
   },
   docketNumber: {
-    type: Number,
+    type: String,
     unique: true,
   },
   petitioner: {
@@ -30,15 +29,6 @@ const civilCaseSchema = mongoose.Schema({
 });
 
 civilCaseSchema.pre("save", async function (next) {
-  if (this.isNew && !this.docketNumber) {
-    const counter = await Counter.findOneAndUpdate(
-      { id: "docketNumber" },
-      { $inc: { seq: 1 } },
-      { new: true, upsert: true }
-    );
-    this.docketNumber = counter.seq;
-  }
-
   if (this.nature) {
     this.nature = capitalizeFirstLetter(this.nature);
   }

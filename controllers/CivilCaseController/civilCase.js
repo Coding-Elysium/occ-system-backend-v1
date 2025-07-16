@@ -18,7 +18,7 @@ export const civilCaseAdd = (req, res) => {
     const { error } = civilCaseValidation.validate(req.body);
 
     if (error) {
-      return res.status(400).json({ message: error.details[0].message });
+      return res.status(400).json({ message:   error.details[0].message });
     }
 
     const newCivilCase = new CivilCase(req.body);
