@@ -1,23 +1,30 @@
 import mongoose from "mongoose";
 
 const decisionFirstLevelSchema = mongoose.Schema({
-    remarks: {
-        type: String,
-    },
-    decision: {
-        type: String, 
-        required: true,
-    },
-    case_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "CivilCase", 
-        required: true,
-    },
-    date: {
-        type: Date,
-    },
+  courtOfOrigin: {
+    type: String,
+  },
+  remarks: {
+    type: String,
+    required: true,
+  },
+  decision: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+  },
+  case_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "CivilCase",
+    required: true,
+  },
 });
 
-const SchemaDecisionFirstLevel = mongoose.model("DecisionFirstLevel", decisionFirstLevelSchema);
+const SchemaDecisionFirstLevel = mongoose.model(
+  "DecisionFirstLevel",
+  decisionFirstLevelSchema
+);
 
 export default SchemaDecisionFirstLevel;

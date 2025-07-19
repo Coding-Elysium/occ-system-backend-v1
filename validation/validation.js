@@ -1,42 +1,52 @@
 import Joi from "joi";
 
 export const civilCaseValidation = Joi.object({
-  bookNumber: Joi.string().required(),
   docketNumber: Joi.string().required(),
   petitioner: Joi.array().items(Joi.string()).min(1).required(),
   respondents: Joi.array().items(Joi.string()).min(1).required(),
   nature: Joi.string().required(),
+  description: Joi.string().required(),
   branch: Joi.string().required(),
   status: Joi.string()
-    .valid("-----", "withdrawn", "dismissed", "archived", "appealed case")
+    .valid(
+      "-----",
+      "withdrawn",
+      "dismissed",
+      "archived",
+      "appealed case",
+      "remanded to the court of origin"
+    )
     .required(),
 });
 
 export const firstLevelDecisionValidation = Joi.object({
+  courtOfOrigin: Joi.string().allow("", null),
   remarks: Joi.string().allow("", null),
   decision: Joi.string().required(),
-  case_id: Joi.string().required(),
   date: Joi.date().optional().allow(null),
+  case_id: Joi.string().required(),
 });
 
 export const secondLevelDecisionValidation = Joi.object({
   decision: Joi.string().required(),
-  case_id: Joi.string().required(),
-  judgement: Joi.date().optional().allow(null),
+  judgement: Joi.string().required(),
+  dateOfJudgement: Joi.date().optional().allow(null),
   finality: Joi.string().allow("", null),
+  dateOfFinality: Joi.date().optional().allow(null),
+  case_id: Joi.string().required(),
 });
 
 export const decisionCourtAppealsValidation = Joi.object({
-  dateOfAppealOne: Joi.date().optional().allow(null),
+  division: Joi.string().required(),
+  dateOfAppeal: Joi.date().optional().allow(null),
   decision: Joi.string().required(),
-  resolution: Joi.date().optional().allow(null),
   finality: Joi.string().allow("", null),
-  dateOfAppealTwo: Joi.date().optional().allow(null),
+  dateOfFinality: Joi.date().optional().allow(null),
   case_id: Joi.string().required(),
 });
 
 export const decisionSupremeCourtValidation = Joi.object({
   decision: Joi.string().required(),
+  date: Joi.date().optional().allow(null),
   case_id: Joi.string().required(),
-  resolution: Joi.date().optional().allow(null),
 });

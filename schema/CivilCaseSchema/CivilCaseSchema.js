@@ -2,10 +2,6 @@ import mongoose from "mongoose";
 import { capitalizeFirstLetter } from "../../helper/helper.js";
 
 const civilCaseSchema = mongoose.Schema({
-  bookNumber: {
-    type: String,
-    unique: true,
-  },
   docketNumber: {
     type: String,
     unique: true,
@@ -17,6 +13,9 @@ const civilCaseSchema = mongoose.Schema({
     type: [String],
   },
   nature: {
+    type: String,
+  },
+  description: {
     type: String,
   },
   branch: {

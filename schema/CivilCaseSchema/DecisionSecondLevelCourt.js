@@ -1,24 +1,35 @@
 import mongoose from "mongoose";
 
 const decisionSecondLevelSchema = mongoose.Schema({
-    decision: {
-        type: String, 
-        required: true,
-    },
-    case_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "CivilCase", 
-        required: true,
-    },
-    judgement: {
-        type: Date,
-        required: true,
-    },
-    finality: {
-        type: String,
-    }
+  decision: {
+    type: String,
+    required: true,
+  },
+  judgement: {
+    type: String,
+    required: true,
+  },
+  dateOfJudgement: {
+    type: Date,
+    required: true,
+  },
+  finality: {
+    type: String,
+  },
+  dateOfFinality: {
+    type: Date,
+    required: true,
+  },
+  case_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "CivilCase",
+    required: true,
+  },
 });
 
-const SchemaDecisionSecondLevel = mongoose.model("DecisionSecondLevel", decisionSecondLevelSchema);
+const SchemaDecisionSecondLevel = mongoose.model(
+  "DecisionSecondLevel",
+  decisionSecondLevelSchema
+);
 
 export default SchemaDecisionSecondLevel;
