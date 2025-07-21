@@ -5,11 +5,7 @@ const decisionSecondLevelSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  judgement: {
-    type: String,
-    required: true,
-  },
-  dateOfJudgement: {
+  dateOfDecision: {
     type: Date,
     required: true,
   },

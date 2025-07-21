@@ -225,8 +225,7 @@ export const decisionSecondLevel = async (req, res) => {
   try {
     const {
       decision,
-      judgement,
-      dateOfJudgement,
+      dateOfDecision,
       finality,
       dateOfFinality,
       case_id,
@@ -248,8 +247,7 @@ export const decisionSecondLevel = async (req, res) => {
 
     const newDecision = new SchemaDecisionSecondLevel({
       decision,
-      judgement,
-      dateOfJudgement,
+      dateOfDecision,
       finality,
       dateOfFinality,
       case_id,
@@ -315,15 +313,16 @@ export const updateSecondLevel = async (req, res) => {
       });
     }
 
-    const { decision, case_id, judgement, finality } = req.body;
+    const { decision, dateOfDecision, finality, dateOfFinality, case_id } = req.body;
 
     const updatedDecision = await SchemaDecisionSecondLevel.findByIdAndUpdate(
       id,
       {
         decision,
-        case_id,
-        judgement,
+        dateOfDecision,
         finality,
+        dateOfFinality,
+        case_id, 
       },
       { new: true }
     );

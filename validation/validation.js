@@ -10,11 +10,11 @@ export const civilCaseValidation = Joi.object({
   status: Joi.string()
     .valid(
       "-----",
-      "withdrawn",
-      "dismissed",
-      "archived",
-      "appealed case",
-      "remanded to the court of origin"
+      "Withdrawn",
+      "Dismissed",
+      "Archived",
+      "Appealed Case",
+      "Remanded to the Court of Origin"
     )
     .required(),
 });
@@ -29,8 +29,7 @@ export const firstLevelDecisionValidation = Joi.object({
 
 export const secondLevelDecisionValidation = Joi.object({
   decision: Joi.string().required(),
-  judgement: Joi.string().required(),
-  dateOfJudgement: Joi.date().optional().allow(null),
+  dateOfDecision: Joi.date().optional().allow(null),
   finality: Joi.string().allow("", null),
   dateOfFinality: Joi.date().optional().allow(null),
   case_id: Joi.string().required(),
