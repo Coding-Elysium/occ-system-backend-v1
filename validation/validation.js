@@ -9,7 +9,7 @@ export const civilCaseValidation = Joi.object({
   branch: Joi.string().required(),
   status: Joi.string()
     .valid(
-      "-----",
+      "Pending",
       "Withdrawn",
       "Dismissed",
       "Archived",
