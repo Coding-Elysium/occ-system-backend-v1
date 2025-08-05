@@ -5,16 +5,9 @@ const decisionSecondLevelSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  dateOfDecision: {
-    type: Date,
-    required: true,
-  },
-  finality: {
+  date: {
     type: String,
-  },
-  dateOfFinality: {
-    type: Date,
-    required: true,
+    default: "N/A"
   },
   case_id: {
     type: mongoose.Schema.Types.ObjectId,

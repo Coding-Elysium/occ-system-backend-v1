@@ -225,9 +225,7 @@ export const decisionSecondLevel = async (req, res) => {
   try {
     const {
       decision,
-      dateOfDecision,
-      finality,
-      dateOfFinality,
+      date,
       case_id,
     } = req.body;
 
@@ -247,9 +245,7 @@ export const decisionSecondLevel = async (req, res) => {
 
     const newDecision = new SchemaDecisionSecondLevel({
       decision,
-      dateOfDecision,
-      finality,
-      dateOfFinality,
+      date,
       case_id,
     });
 

@@ -29,9 +29,7 @@ export const firstLevelDecisionValidation = Joi.object({
 
 export const secondLevelDecisionValidation = Joi.object({
   decision: Joi.string().required(),
-  dateOfDecision: Joi.date().optional().allow(null),
-  finality: Joi.string().allow("", null),
-  dateOfFinality: Joi.date().optional().allow(null),
+  date: Joi.string().optional().allow(null),
   case_id: Joi.string().required(),
 });
 
