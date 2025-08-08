@@ -34,8 +34,8 @@ export const secondLevelDecisionValidation = Joi.object({
 });
 
 export const decisionCourtAppealsValidation = Joi.object({
-  division: Joi.string().required(),
   dateOfAppeal: Joi.date().optional().allow(null),
+  division: Joi.string().required(),
   decision: Joi.string().required(),
   finality: Joi.string().allow("", null),
   dateOfFinality: Joi.date().optional().allow(null),

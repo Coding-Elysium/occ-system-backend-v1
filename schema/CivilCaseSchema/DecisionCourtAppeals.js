@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const decisionCourtAppealSchema = mongoose.Schema({
-  division: {
-    type: String,
-  },
   dateOfAppeal: {
     type: Date,
+  },
+  division: {
+    type: String,
   },
   decision: {
     type: String,

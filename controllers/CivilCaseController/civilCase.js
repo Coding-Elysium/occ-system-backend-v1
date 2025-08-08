@@ -348,8 +348,8 @@ export const courtAppeals = async (req, res) => {
     }
 
     const {
-      division,
       dateOfAppeal,
+      division,
       decision,
       finality,
       dateOfFinality,
@@ -357,8 +357,8 @@ export const courtAppeals = async (req, res) => {
     } = req.body;
 
     const newDecision = new SchemaDecisionCourtAppeal({
-      division,
       dateOfAppeal,
+      division,
       decision,
       dateOfFinality,
       finality,
@@ -407,14 +407,14 @@ export const updateCourtAppeals = async (req, res) => {
       });
     }
 
-    const { division, dateOfAppeal, decision, finality, dateOfFinality } =
+    const {date, division, dateOfAppeal, decision, finality, dateOfFinality } =
       req.body;
 
     const updatedDecision = await SchemaDecisionCourtAppeal.findByIdAndUpdate(
       id,
       {
-        division,
         dateOfAppeal,
+        division,
         decision,
         finality,
         dateOfFinality,
